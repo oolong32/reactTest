@@ -53,8 +53,7 @@ class Playlist extends Component {
     let playlist = this.props.playlist;
     return (
       <div style={{...defaultStyle, width: '25%', marginRight: '20px', display: 'inline-block'}}>
-        <img src="" alt="" />  
-      <img style={{maxWidth: '100%'}} src={playlist.imageUrl} />
+      <img style={{maxWidth: '100%'}} src={playlist.imageUrl} alt="" />
       <h3 style={{...defaultStyle, textTransform: 'capitalize'}}>{playlist.name}</h3>
       <ul style={defaultStyle}>
         { playlist.songs.map(song =>
@@ -78,6 +77,8 @@ class App extends Component {
   componentDidMount() {
     let parsed = queryString.parse(window.location.search);
     let accessToken = parsed.access_token;
+
+    if (!accessToken) { return; }
 
     fetch('https://api.spotify.com/v1/me', {
       headers: {'Authorization': 'Bearer ' + accessToken}
