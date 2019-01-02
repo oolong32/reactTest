@@ -138,7 +138,7 @@ class App extends Component {
         </section> : <button onClick={() => {
           window.location = window.location.href.includes('localhost')
             ? 'http://localhost:8888/login'
-            : 'https:// better-playlists-backend-175/login';
+            : 'https://better-playlists-backend-175/login';
           }}
           style={{padding: '20px', border: 'none', borderRadius: '12px', fontSize: '24px', fontWeight: 'bold', background: 'lawngreen',  marginTop: '30px'}}>Sign in with Spotify</button>
         }
