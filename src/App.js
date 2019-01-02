@@ -136,7 +136,7 @@ class App extends Component {
               )}
             </div> : <p>This user has no playlists!?</p>} 
         </section> : <button onClick={() => {
-          window.location = window.location.includes('localhost')
+          window.location = window.location.herf.includes('localhost')
             ? 'http://localhost:8888/login'
             : 'https://learn-react-157.herokuapp.com/login';
           }}
