@@ -48,11 +48,9 @@ class Playlist extends Component {
 
 class App extends Component {
   render() {
-    let name = 'Josef';
-    let header_style = { color: 'deeppink', fontSize: '32px', fontWeight: 'bold' }
     return (
       <div className="App">
-        <h1>Title</h1>
+        <h1 style={{...defaultStyle, fontSize: '48px'}}>Title</h1>
         <Aggregate></Aggregate>
         <Aggregate></Aggregate>
         <Filter></Filter>
