@@ -135,7 +135,11 @@ class App extends Component {
                 <Playlist playlist={playlist} />
               )}
             </div> : <p>This user has no playlists!?</p>} 
-        </section> : <button onClick={() => window.location = 'http://localhost:8888/login'}
+        </section> : <button onClick={() => {
+          window.location = window.location.includes('localhost')
+            ? 'http://localhost:8888/login'
+            : 'https://learn-react-157.herokuapp.com/login';
+          }}
           style={{padding: '20px', border: 'none', borderRadius: '12px', fontSize: '24px', fontWeight: 'bold', background: 'lawngreen',  marginTop: '30px'}}>Sign in with Spotify</button>
         }
       </div>
