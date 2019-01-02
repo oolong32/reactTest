@@ -12,19 +12,19 @@ let fakeServerData = {
     playlists: [
       {
         name: 'My Favourites',
-        songs: [{name: 'Foo', duration: '12345'}, {name: 'Bar', duration: '12345'}, {name: 'Baz', duration: '12345'}]
+        songs: [{title: 'Foo', duration: '12345'}, {title: 'Bar', duration: '12345'}, {title: 'Baz', duration: '12345'}]
       },
       {
         name: 'Other Songs',
-        songs: [{name: 'Dada', duration: '12345'}, {name: 'Dadeldü', duration: '12345'}, {name: 'Dum-di-dum', duration: '12345'}, {name: 'La-la', duration: '12345'}]
+        songs: [{title: 'Dada', duration: '12345'}, {title: 'Dadeldü', duration: '12345'}, {title: 'Dum-di-dum', duration: '12345'}, {title: 'La-la', duration: '12345'}]
       },
       {
         name: 'Good Stuff',
-        songs: [{name: 'Yo!', duration: '12345'}, {name: 'Gnak', duration: '12345'}, {name: 'Proot', duration: '12345'}, {name: 'Qwak', duration: '12345'}]
+        songs: [{title: 'Yo!', duration: '12345'}, {title: 'Gnak', duration: '12345'}, {title: 'Proot', duration: '12345'}, {title: 'Qwak', duration: '12345'}]
       },
       {
         name: 'The big lala',
-        songs: [{name: 'Banana', duration: '12345'}, {name: 'Boo-boo', duration: '12345'}, {name: 'Bing bang', duration: '12345'}, {name: 'Ha ha ha', duration: '12345'}]
+        songs: [{title: 'Banana', duration: '12345'}, {title: 'Boo-boo', duration: '12345'}, {title: 'Bing bang', duration: '12345'}, {title: 'Ha ha ha', duration: '12345'}]
       }
     ]
   }
@@ -70,14 +70,15 @@ class Filter extends Component {
 
 class Playlist extends Component {
   render() {
+    let playlist = this.props.playlist;
     return (
       <div style={{...defaultStyle, width: '25%', display: 'inline-block'}}>
         <img src="" alt="" />  
-      <h3>Playlist Name</h3>
+      <h3 style={{...defaultStyle, textTransform: 'capitalize'}}>{playlist.name}</h3>
       <ul style={defaultStyle}>
-        <li>Song 1</li>
-        <li>Song 2</li>
-        <li>Song 3</li>
+        { playlist.songs.map(song =>
+        <li>{song.title}</li>
+        )}
       </ul>
       </div>
     );
@@ -104,13 +105,12 @@ class App extends Component {
           <h1 style={{...defaultStyle, fontSize: '48px'}}>
           {this.state.serverData.user.name}’s Playlists
         </h1>
-          <PlaylistCounter playlists={this.state.serverData.user.playlists}/>
-          <HoursCounter playlists={this.state.serverData.user.playlists}/>
-          <Filter/>
-          <Playlist/>
-          <Playlist/>
-          <Playlist/>
-          <Playlist/>
+          <PlaylistCounter playlists={this.state.serverData.user.playlists} />
+          <HoursCounter playlists={this.state.serverData.user.playlists} />
+          <Filter />
+          {this.state.serverData.user.playlists.map(playlist =>
+            <Playlist playlist={playlist} />
+          )}
         </section> : <h1 style={defaultStyle}>Loading …</h1>
         }
       </div>
