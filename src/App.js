@@ -12,19 +12,19 @@ let fakeServerData = {
     playlists: [
       {
         name: 'My Favourites',
-        songs: [{title: 'Foo', duration: '12345'}, {title: 'Bar', duration: '12345'}, {title: 'Baz', duration: '12345'}]
+        songs: [{title: 'Foo', duration: 195}, {title: 'Bar', duration: 612}, {title: 'Baz', duration: 174}]
       },
       {
         name: 'Other Songs',
-        songs: [{title: 'Dada', duration: '12345'}, {title: 'Dadeldü', duration: '12345'}, {title: 'Dum-di-dum', duration: '12345'}, {title: 'La-la', duration: '12345'}]
+        songs: [{title: 'Dada', duration: 512}, {title: 'Dadeldü', duration: 452}, {title: 'Dum-di-dum', duration: 982}, {title: 'La-la', duration: 123}]
       },
       {
         name: 'Good Stuff',
-        songs: [{title: 'Yo!', duration: '12345'}, {title: 'Gnak', duration: '12345'}, {title: 'Proot', duration: '12345'}, {title: 'Qwak', duration: '12345'}]
+        songs: [{title: 'Yo!', duration: 732}, {title: 'Gnak', duration: 823}, {title: 'Proot', duration: 835}, {title: 'Qwak', duration: 327}]
       },
       {
         name: 'The big lala',
-        songs: [{title: 'Banana', duration: '12345'}, {title: 'Boo-boo', duration: '12345'}, {title: 'Bing bang', duration: '12345'}, {title: 'Ha ha ha', duration: '12345'}]
+        songs: [{title: 'Banana', duration: 394}, {title: 'Boo-boo', duration: 223}, {title: 'Bing bang', duration: 219}, {title: 'Ha ha ha', duration: 623}]
       }
     ]
   }
@@ -42,15 +42,18 @@ class PlaylistCounter extends Component {
 
 class HoursCounter extends Component {
   render() {
-    let allSongs = this.props.playlists.reduce((songs, eachPlaylist)=>{
-      return songs.concat(eachPlaylist.songs);
+    let allSongs = this.props.playlists
+      .reduce((songs, eachPlaylist) => {
+        return songs.concat(eachPlaylist.songs);
     }, []);
-    let totalDuration = allSongs.reduce((sum, eachSong)=>{
-      return (sum + eachSong.duration) / 60;
-    }, 0);
+    let allSongDurations = allSongs.map(song=>song.duration);
+    let totalDuration = allSongDurations.length ? allSongDurations.reduce((accumulator, currentDuration) =>
+      accumulator + currentDuration) : 0;
+    let hours = Math.floor(totalDuration / 60);
+    let minutes = Math.floor(totalDuration % 60);
     return (
       <section className="hours-counter" style={{...defaultStyle, width: '40%', display: 'inline-block'}}>
-        <h2>{Math.round(totalDuration)} Hours</h2>
+        <h2>{hours} Hours, {minutes} Minutes</h2>
       </section>
     );
   }
@@ -102,6 +105,11 @@ class App extends Component {
   }
 
   render() {
+    let playlistsToRender = this.state.serverData.user ? this.state.serverData.user.playlists
+      .filter(playlist =>
+        playlist.name.toLowerCase().includes(
+          this.state.filterString.toLowerCase())
+      ) : [];
     return (
       <div className="App">
         {this.state.serverData.user ?
@@ -109,16 +117,14 @@ class App extends Component {
           <h1 style={{...defaultStyle, fontSize: '48px'}}>
           {this.state.serverData.user.name}’s Playlists
         </h1>
-          <PlaylistCounter playlists={this.state.serverData.user.playlists} />
-          <HoursCounter playlists={this.state.serverData.user.playlists} />
+          <PlaylistCounter playlists={playlistsToRender} />
+          <HoursCounter playlists={playlistsToRender} />
 
           <Filter onTextChange={text =>
             this.setState({filterString: text})
           } />
 
-          {this.state.serverData.user.playlists.filter(playlist =>
-            playlist.name.toLowerCase().includes(this.state.filterString.toLowerCase())
-          ).map(playlist =>
+          {playlistsToRender.map(playlist =>
             <Playlist playlist={playlist} />
           )}
         </section> : <h1 style={defaultStyle}>Loading …</h1>
