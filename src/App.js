@@ -134,9 +134,12 @@ class App extends Component {
     let playlistsToRender =
       this.state.user &&
       this.state.playlists
-        ? this.state.playlists.filter(playlist =>
-          playlist.name.toLowerCase().includes(
-            this.state.filterString.toLowerCase()))
+        ? this.state.playlists.filter(playlist => {
+          let filterString = this.state.filterString.toLowerCase();
+          let matchesPlaylist = playlist.name.toLowerCase().includes(filterString);
+          let matchesTrack = playlist.songs.slice(0, 3).find(track => track.title.toLowerCase().includes(filterString));
+          return matchesPlaylist || matchesTrack;
+        })
         : [];
     return (
       <div className="App">
