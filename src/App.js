@@ -26,7 +26,7 @@ class HoursCounter extends Component {
     let totalDuration = allSongDurations.length ? allSongDurations.reduce((accumulator, currentDuration) =>
       accumulator + currentDuration) : 0;
     let hours = Math.floor(totalDuration / 3600);
-    let minutes = Math.floor(totalDuration % 3600 / 60);
+    let minutes = Math.floor((totalDuration % 3600) / 60);
     return (
       <section className="hours-counter" style={{...defaultStyle, width: '40%', display: 'inline-block'}}>
         <h2>{hours} Hours, {minutes} Minutes</h2>
@@ -56,7 +56,7 @@ class Playlist extends Component {
       <img style={{maxWidth: '100%'}} src={playlist.imageUrl} alt="" />
       <h3 style={{...defaultStyle, textTransform: 'capitalize'}}>{playlist.name}</h3>
       <ul style={defaultStyle}>
-        { playlist.songs.map(song =>
+        { playlist.songs.slice(0,3).map(song =>
         <li>{song.title}</li>
         )}
       </ul>
@@ -104,14 +104,14 @@ class App extends Component {
           return trackDataPromise;
         })
         let allTracksDataPromises =
-        Promise.all(trackDataPromises)
-          let playlistsPromise = allTracksDataPromises.then(trackDatas => {
+          Promise.all(trackDataPromises)
+        let playlistsPromise = allTracksDataPromises.then(trackDatas => {
           trackDatas.forEach((trackData, i) => {
             playlists[i].trackDatas = trackData.items
               .map(item => item.track)
-              .map(track => ({
-                title: track.name,
-                duration: (track.duration_ms/1000)
+              .map(trackData => ({
+                title: trackData.name,
+                duration: (trackData.duration_ms/1000)
               }))
           });
           return playlists;
@@ -120,11 +120,10 @@ class App extends Component {
       })
       .then(playlists => this.setState({
         playlists: playlists.map(item => {
-          console.log(item.trackDatas);
           return {
             name: item.name,
             imageUrl: item.images[0].url,
-            songs: item.trackDatas.slice(0,3)
+            songs: item.trackDatas
           }
         }) 
       }))
