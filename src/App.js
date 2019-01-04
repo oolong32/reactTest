@@ -3,13 +3,19 @@ import './App.css';
 import queryString from 'query-string';
 
 let defaultStyle = {
+  fontFamily: '"Open Sans", "Helvetica Neue", sans-serif',
   color: '#fff',
+}
+let counterStyles = {
+  ...defaultStyle,
+  width: '40%',
+  display: 'inline-block'
 }
 
 class PlaylistCounter extends Component {
   render() {
     return (
-      <section className="playlist-counter" style={{...defaultStyle, width: '40%', display: 'inline-block'}}>
+      <section className="playlist-counter" style={counterStyles}>
         <h2>{this.props.playlists.length} Playlists</h2>
       </section>
     );
@@ -28,8 +34,8 @@ class HoursCounter extends Component {
     let hours = Math.floor(totalDuration / 3600);
     let minutes = Math.floor((totalDuration % 3600) / 60);
     return (
-      <section className="hours-counter" style={{...defaultStyle, width: '40%', display: 'inline-block'}}>
-        <h2>{hours} Hours, {minutes} Minutes</h2>
+      <section className="hours-counter" style={counterStyles}>
+        <h2><span style={{display: hours ? 'inline' : 'none'}}>{hours} Hours, </span>{minutes} Minutes</h2>
       </section>
     );
   }

@@ -1,15 +1,3 @@
-body {
-  background: black;
-}
-.App {
-  text-align: center;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-h1  {
-	font-size: 64px;
-  color: white;
-}
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+body { background: black; }
+h2 { font-weight: normal; font-size: 1.25em; }
